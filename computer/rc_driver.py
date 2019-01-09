@@ -18,7 +18,7 @@ events = pygame.event.get()
 for event in events:
     if event.type == KEYDOWN:
         key_input = pygame.key.get_pressed()
-        
+
     if key_input[pygame.K_UP] and key_input[pygame.K_RIGHT]:
         print("Forward Right")
         X = np.vstack((X, temp_array))
@@ -41,7 +41,7 @@ for event in events:
         print("Reverse Left")
         self.ser.write(chr(9).encode())
 
-                            # simple orders
+            
     elif key_input[pygame.K_UP]:
         print("Forward")
         saved_frame += 1
