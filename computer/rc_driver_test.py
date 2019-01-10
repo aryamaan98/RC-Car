@@ -4,12 +4,12 @@ from pygame.locals import *
 import cv2
 import sys
 
-host = 192.168.1.100
+host = "192.168.1.100"
 port = 8000
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Socket Created")
-client_socket.connect(host,port)
+client_socket.connect((host,port))
 print("Established Connection !")
 
     

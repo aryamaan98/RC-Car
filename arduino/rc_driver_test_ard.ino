@@ -1,6 +1,7 @@
 int right_pin = 6;
 int left_pin = 7;
 int forward_pin = 10;
+int reverse_pin = 9;
 
 int time = 50;
 int command = 0;
@@ -38,8 +39,19 @@ void forward(int time){
   delay(time);
 }
 
+void reverse(int time){
+  digitalWrite(reverse_pin, HIGH);
+  delay(time);
+}
+
 void forward_right(int time){
   digitalWrite(forward_pin, HIGH);
+  digitalWrite(right_pin, HIGH);
+  delay(time);
+}
+
+void reverse_right(int time){
+  digitalWrite(reverse_pin, HIGH);
   digitalWrite(right_pin, HIGH);
   delay(time);
 }
@@ -50,8 +62,17 @@ void forward_left(int time){
   delay(time);
 }
 
+void reverse_left(int time){
+  digitalWrite(reverse_pin, HIGH);
+  digitalWrite(left_pin, HIGH);
+  delay(time);
+}
+
 void reset(){
-  digitalWrite(forward_pin, LOW);
+    digitalWrite(right_pin, LOW);
+    digitalWrite(left_pin, LOW);
+    digitalWrite(forward_pin, LOW);
+    digitalWrite(reverse_pin, LOW);
 }
 
 void send_command(int command, int time){
@@ -62,13 +83,15 @@ void send_command(int command, int time){
 
      // single command
      case 1: forward(time); break;
-     
+     case 2: reverse(time); break;
      case 3: right(time); break;
      case 4: left(time); break;
 
      //combination command
      case 6: forward_right(time); break;
      case 7: forward_left(time); break;
+     case 8: reverse_right(time); break;
+     case 9: reverse_left(time); break;
 
      default: Serial.print("Invalid Command\n");
     }
