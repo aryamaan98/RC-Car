@@ -3,19 +3,15 @@ import serial
 import time
 
 
-#From Server to pi.
-host = "192.168.1.100"
-port = 8000
+#From computer to pi.
+host = "127.0.0.1"
+port = 9050
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-try:
-    server_socket.bind((host,port))
-except socket.error:
-    print("Bind Failed")
-
-    server_socket.listen(0)
-    (conn,addr) = server_socket.accept()
-    print("Established Connection !")
+server_socket = socket.socket()
+server_socket.bind((host,port))
+server_socket.listen(0)
+conn = server_socket.accept()
+print("Established Connection !")
 
 #From Pi to arduino
 port_ard = "/dev/ttyACM0"
@@ -33,18 +29,18 @@ while True:
     elif data == chr(7).encode():
         print("Forward Left")
         ser.write(b"7")
-    #elif data == chr(8).encode():
-        #print("Reverse Right")
-        #ser.write(b"8")
-    #elif data == chr(9).encode():
-        #print("Reverse Left")
-        #ser.write(b"9")
+    elif data == chr(8).encode():
+        print("Reverse Right")
+        ser.write(b"8")
+    elif data == chr(9).encode():
+        print("Reverse Left")
+        ser.write(b"9")
     elif data == chr(1).encode():
         print("Forward")
         ser.write(b"1")
-    #elif data == chr(2).encode():
-        #print("Reverse")
-        #ser.write(b"2")
+    elif data == chr(2).encode():
+        print("Reverse")
+        ser.write(b"2")
     elif data == chr(3).encode():
         print("Right")
         ser.write(b"3")
@@ -54,6 +50,8 @@ while True:
     elif data == chr(0).encode():
         ser.write(b"0")
     elif data == "Terminating":
+        conn.close()
+        server_socket.close()
         print("Exit !")
         break
 print("Completed Testing")
