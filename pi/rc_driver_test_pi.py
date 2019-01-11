@@ -4,13 +4,13 @@ import time
 
 
 #From computer to pi.
-host = "127.0.0.1"
-port = 9050
+host = "192.168.43.122"
+port = 8051
 
-server_socket = socket.socket()
+server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 server_socket.bind((host,port))
 server_socket.listen(0)
-conn = server_socket.accept()
+conn,addr = server_socket.accept()
 print("Established Connection !")
 
 #From Pi to arduino
@@ -51,7 +51,6 @@ while True:
         ser.write(b"0")
     elif data == "Terminating":
         conn.close()
-        server_socket.close()
         print("Exit !")
         break
 print("Completed Testing")
